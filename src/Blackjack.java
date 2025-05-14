@@ -58,14 +58,26 @@ public class Blackjack {
     int cardWidth = 110; //1:1.4 ratio 
     int cardHeight = 154;
 
+    boolean catActive = false;
+    int catRoll = 0;
+
+    Image catImg = new ImageIcon (getClass().getResource("./cards/bigcat.png")).getImage();
+
     JFrame frame = new JFrame("Blackjack");
     JPanel gamePanel = new JPanel(){
         @Override
         public void paintComponent(Graphics g){
             super.paintComponent(g);
 
-
             try{
+                //chance to draw cat
+                catRoll = ((int)(Math.random()*100));
+                System.out.println("Cat Roll = " + catRoll);
+                if (catRoll > 80) {
+                    //draw cat
+                    catActive = true;
+                    g.drawImage(catImg,500,180,64,64,null);
+                }
                 //draw hidden card
                 Image hiddenCardImg = new ImageIcon(getClass().getResource("./cards/BACK.png")).getImage();
                 if(!stayButton.isEnabled()){
@@ -94,7 +106,7 @@ public class Blackjack {
                     System.out.println("DEALER: " + dealerSum);
                     System.out.println("PLAYER: "+playerSum);
 
-                    String message = "TEST";
+                    String message;
 
                     //if statements to update message is WIN, LOSE, PUSH(DRAW or TIE) based on score
                     if(playerSum > 21){
@@ -235,8 +247,6 @@ public class Blackjack {
         System.out.println(playerHand);
         System.out.println(playerSum);
         System.out.println(playerAceCount);
-
-
     }
 
     public void buildDeck(){
